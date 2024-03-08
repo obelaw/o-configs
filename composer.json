@@ -1,0 +1,17 @@
+{
+    "name": "obelaw/o-configuration",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Obelaw\\OConfiguration\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Karim Mohamed",
+            "email": "komicho1996@gmail.com"
+        }
+    ],
+    "require": {}
+}
