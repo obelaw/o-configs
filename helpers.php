@@ -1,10 +1,18 @@
 <?php
 
 
+//o_push_option($path, $value);
 //o_set_option($path, $value);
 //o_get_option($path, $default = null);
 //o_has_option($path);
 //o_remove_option($path);
+
+if (!function_exists('o_set_option')) {
+    function o_push_option($path, $value)
+    {
+        return app('obelaw.o.configuration')->push($path, $value);
+    }
+}
 
 if (!function_exists('o_set_option')) {
     function o_set_option($path, $value)

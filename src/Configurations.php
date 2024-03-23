@@ -4,13 +4,19 @@ namespace Obelaw\Configuration;
 
 use Obelaw\Configuration\Models\Configuration;
 
-class  Configurations
+final class Configurations
 {
     private array $settings = [];
 
     public function __construct()
     {
         $this->settings = Configuration::pluck('value', 'path')->toArray();
+    }
+
+    public function push($path, $value)
+    {
+        $this->settings[$path] = $value;
+        return $this->settings;
     }
 
     public function set($path, $value)
