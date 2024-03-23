@@ -4,8 +4,11 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Obelaw\\OConfiguration\\": "src/"
-        }
+            "Obelaw\\Configuration\\": "src/"
+        },
+        "files": [
+            "helpers.php"
+        ]
     },
     "authors": [
         {
@@ -13,5 +16,14 @@
             "email": "komicho1996@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "laravel/framework": "^10.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Obelaw\\Configuration\\ConfigurationServiceProvider"
+            ]
+        }
+    }
 }
