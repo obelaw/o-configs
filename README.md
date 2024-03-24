@@ -1,14 +1,14 @@
-# O Configuration
+# O Configs
 
-You can add and manage options within the configurations and overwrite the application configurations without having to change the values inside the configuration files.
+You can add and manage options within the configs and overwrite the application configs without having to change the values inside the config files.
 
 ## Install for laravel
 
 ```bash
-composer require obelaw/o-configuration
+composer require obelaw/o-configs
 ```
 
-### Migrate configurations table
+### Migrate configs table
 
 ```bash
 php artisan migrate
@@ -19,10 +19,10 @@ php artisan migrate
 You can overwrite app configs
 
 ```php
-o_get_option('app.name') // Laravel;
+o_config()->get('app.name') // Laravel;
 
-o_set_option('app.name', 'Obelaw');
-o_get_option('app.name') // Obelaw;
+o_config()->set('app.name', 'Obelaw');
+o_config()->get('app.name') // Obelaw;
 ```
 
 ## Usage
@@ -34,7 +34,7 @@ You can manage options in a simple way with helpers.
 You can add an option through the following line
 
 ```php
-o_set_option($path, $value);
+o_config()->set($path, $value);
 ```
 
 `$path`: The option path that you will use to fetch its value.
@@ -48,10 +48,10 @@ o_set_option($path, $value);
 Fetching value for a specific option
 
 ```php
-o_get_option($path, $default = null)
+o_config()->get($path, $default = null)
 ```
 
-> If this path does not exist in the configurations table, the value will be fetched from within the file, otherwise, the default value will be displayed if you set.
+> If this path does not exist in the configs table, the value will be fetched from within the file, otherwise, the default value will be displayed if you set.
 
 `$path`: The option path.
 
@@ -62,36 +62,36 @@ o_get_option($path, $default = null)
 Make sure the option is there
 
 ```php
-o_has_option($path)
+o_config()->has($path)
 ```
 
 `$path`: The option path.
 
-> Verify that the value exists within the configurations table.
+> Verify that the value exists within the configs table.
 
-### Remove Option
+### Forget Option
 
 You can delete any option
 
 ```php
-o_remove_option($path)
+o_config()->forget($path)
 ```
 
 `$path`: The option path.
 
-> Delete the option from the configurations table if it exists.
+> Delete the option from the configs table if it exists.
 
 ## Use facade
 
 ```php
-use Obelaw\Configuration\Support\Option;
+use Obelaw\Configs\Support\Option;
 
 Option::set($path, $value);
 Option::get($path, $default = null);
 Option::has($path);
-Option::remove($path);
+Option::forget($path);
 ```
 
 ## License
 
-The MIT License (MIT). Please see [License File](/LICENSE) for more information.
+The MIT License (MIT). Please see [The License File](/LICENSE) for more information.

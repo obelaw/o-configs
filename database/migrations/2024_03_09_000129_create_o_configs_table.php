@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('o_configurations', function (Blueprint $table) {
+        Schema::create('o_configs', function (Blueprint $table) {
             $table->string('path')->index()->unique();
             $table->json('value');
         });
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('o_configurations');
+        Schema::dropIfExists('o_configs');
     }
 };

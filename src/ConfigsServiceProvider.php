@@ -1,11 +1,11 @@
 <?php
 
-namespace Obelaw\Configuration;
+namespace Obelaw\Configs;
 
 use Illuminate\Support\ServiceProvider;
-use Obelaw\Configuration\Configurations;
+use Obelaw\Configs\Classes\ConfigsClass;
 
-class ConfigurationServiceProvider extends ServiceProvider
+class ConfigsServiceProvider extends ServiceProvider
 {
 
     /**
@@ -15,7 +15,7 @@ class ConfigurationServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('obelaw.o.configuration', Configurations::class);
+        $this->app->singleton('obelaw.o.configs', ConfigsClass::class);
     }
 
     /**

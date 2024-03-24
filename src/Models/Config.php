@@ -1,15 +1,15 @@
 <?php
 
-namespace Obelaw\Configuration\Models;
+namespace Obelaw\Configs\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Configuration extends Model
+class Config extends Model
 {
     public $timestamps = false;
 
     protected $primaryKey = 'path';
-    protected $table = 'o_configurations';
+    protected $table = 'o_configs';
 
     /**
      * The attributes that are mass assignable.

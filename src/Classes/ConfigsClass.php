@@ -1,27 +1,21 @@
 <?php
 
-namespace Obelaw\Configuration;
+namespace Obelaw\Configs\Classes;
 
-use Obelaw\Configuration\Models\Configuration;
+use Obelaw\Configs\Models\Config;
 
-final class Configurations
+final class ConfigsClass
 {
     private array $settings = [];
 
     public function __construct()
     {
-        $this->settings = Configuration::pluck('value', 'path')->toArray();
-    }
-
-    public function push($path, $value)
-    {
-        $this->settings[$path] = $value;
-        return $this->settings;
+        $this->settings = Config::pluck('value', 'path')->toArray();
     }
 
     public function set($path, $value)
     {
-        $config = Configuration::updateOrCreate(['path' => $path], ['value' => $value]);
+        $config = Config::updateOrCreate(['path' => $path], ['value' => $value]);
 
         if ($config)
             return $config->value;
@@ -33,7 +27,7 @@ final class Configurations
             return $this->settings[$path];
         }
 
-        return config($path, $default);
+        return app('config')->get($path, $default);
     }
 
     public function has($path)
@@ -44,9 +38,9 @@ final class Configurations
         return false;
     }
 
-    public function remove($path)
+    public function forget($path)
     {
-        if ($setting = Configuration::wherePath($path)->first()) {
+        if ($setting = Config::wherePath($path)->first()) {
             return $setting->delete();
         }
 

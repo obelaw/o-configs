@@ -1,6 +1,6 @@
 <?php
 
-namespace Obelaw\Configuration\Support;
+namespace Obelaw\Configs\Support;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -8,6 +8,6 @@ class Option extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'obelaw.o.configuration';
+        return 'obelaw.o.configs';
     }
 }

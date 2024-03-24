@@ -1,10 +1,10 @@
 {
-    "name": "obelaw/o-configuration",
+    "name": "obelaw/o-configs",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Obelaw\\Configuration\\": "src/"
+            "Obelaw\\Configs\\": "src/"
         },
         "files": [
             "helpers.php"
@@ -22,7 +22,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Obelaw\\Configuration\\ConfigurationServiceProvider"
+                "Obelaw\\Configs\\ConfigsServiceProvider"
             ]
         }
     }
