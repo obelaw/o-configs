@@ -2,6 +2,7 @@
 
 namespace Obelaw\Configs\Services;
 
+use Illuminate\Support\Arr;
 use Obelaw\Configs\Models\Config;
 
 /**
@@ -18,14 +19,16 @@ class ConfigurationService
      *
      * @var \Illuminate\Database\Eloquent\Collection
      */
-    private $items;
+    private $items = [];
 
     /**
      * Create a new configuration instance.
      */
     public function __construct()
     {
-        $this->items = Config::all()->keyBy('path');
+        Config::all()->each(function (Config $item) {
+            Arr::set($this->items, $item->path, $item);
+        });
     }
 
     /**
@@ -35,7 +38,7 @@ class ConfigurationService
      */
     public function all()
     {
-        return $this->items->pluck('value')->toArray();
+        return $this->items;
     }
 
     /**
@@ -46,7 +49,7 @@ class ConfigurationService
      */
     public function has(string $path)
     {
-        return $this->items->has($path);
+        return Arr::has($this->items, $path);
     }
 
     /**
@@ -59,10 +62,10 @@ class ConfigurationService
     public function get(string $path, $default = null)
     {
         if (!$this->has($path)) {
-            return app('config')->get($path, $default);
+            return config($path, $default);
         }
 
-        return $this->items->get($path)->value;
+        return Arr::get($this->items, $path);
     }
 
     /**
@@ -73,13 +76,13 @@ class ConfigurationService
      */
     public function forget(string $path)
     {
-        if (!$this->items->has($path)) {
+        if (!$this->has($path)) {
             return false;
         }
 
-        unset($this->items[$path]);
+        Arr::forget($this->items, $path);
 
-        return $this->items->get($path)->delete();
+        return Config::wherePath($path)->delete();
     }
 
     /**
@@ -91,14 +94,9 @@ class ConfigurationService
      */
     public function set(string $path, $value)
     {
-        if ($this->has($path)) {
-            $this->items->get($path)->update(compact('value'));
-        } else {
-            $this->items->put(
-                $path,
-                Config::create(compact('path', 'value'))
-            );
-        }
+        Config::updateOrCreate(compact('path'), compact('value'));
+
+        Arr::set($this->items, $path, $value);
 
         return $value;
     }
