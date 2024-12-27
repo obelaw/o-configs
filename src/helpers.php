@@ -22,6 +22,8 @@ if (! function_exists('oconfig')) {
             foreach ($key as $path => $value) {
                 OConfig::set($path, $value);
             }
+
+            return;
         }
 
         return OConfig::get($key, $default);
