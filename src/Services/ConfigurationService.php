@@ -62,7 +62,7 @@ class ConfigurationService
             return app('config')->get($path, $default);
         }
 
-        return $this->items->get($path)?->value;
+        return $this->items->get($path)->value;
     }
 
     /**
