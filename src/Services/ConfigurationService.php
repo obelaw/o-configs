@@ -19,7 +19,7 @@ class ConfigurationService
      *
      * @var \Illuminate\Database\Eloquent\Collection
      */
-    private $items;
+    private $items = [];
 
     /**
      * Create a new configuration instance.
