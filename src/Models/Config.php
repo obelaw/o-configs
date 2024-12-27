@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property string $path
- * @property array $value
+ * @property mixed $value
  */
 class Config extends Model
 {
