@@ -58,7 +58,11 @@ class ConfigurationService
      */
     public function get(string $path, $default = null)
     {
-        return $this->items->get($path)?->value ?? $default;
+        if (!$this->has($path)) {
+            return app('config')->get($path, $default);
+        }
+
+        return $this->items->get($path)->value;
     }
 
     /**
