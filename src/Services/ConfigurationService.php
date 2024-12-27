@@ -27,7 +27,7 @@ class ConfigurationService
     public function __construct()
     {
         Config::all()->each(function (Config $item) {
-            Arr::set($this->items, $item->path, $item);
+            Arr::set($this->items, $item->path, $item->value);
         });
     }
 
