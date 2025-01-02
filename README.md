@@ -1,97 +1,22 @@
-# O Configs
+<p align="center"><img src="./cover.svg" alt="oConfigs Package"/></p>
 
-You can add and manage options within the configs and overwrite the application configs without having to change the values inside the config files.
+<p align="center">
+  <a href="https://packagist.org/packages/obelaw/o-configs" target="_blank"><img src="https://img.shields.io/static/v1?label=Packagist&message=obelaw/o-configs&color=blue&logo=packagist&logoColor=white" alt="Source"></a>
+  <a href="https://packagist.org/packages/obelaw/o-configs" target="_blank"><img src="https://poser.pugx.org/obelaw/o-configs/v" alt="Packagist Version"></a>
+</p>
 
-## Install for laravel
+# oConfigs Package
 
-```bash
-composer require obelaw/o-configs
-```
+You can add and manage options within the configurations and overwrite the application configurations without having to change the values inside the configuration files.
 
-### Migrate configs table
+## Documentation
 
-```bash
-php artisan migrate
-```
+You can find the detailed documentation here in [Documentation](https://obelaw.com/docs/1.x/packages/o-configs.html).
 
-## Overwrite app configs
+## Contributing
 
-You can overwrite app configs
-
-```php
-o_config()->get('app.name') // Laravel;
-
-o_config()->set('app.name', 'Obelaw');
-o_config()->get('app.name') // Obelaw;
-```
-
-## Usage
-
-You can manage options in a simple way with helpers.
-
-### Add Option
-
-You can add an option through the following line
-
-```php
-o_config()->set($path, $value);
-```
-
-`$path`: The option path that you will use to fetch its value.
-
-`$value`: Put the value of any type of data.
-
-> If this path exists on config files It will be overwritten without modifying the value inside the file.
-
-### Get Option
-
-Fetching value for a specific option
-
-```php
-o_config()->get($path, $default = null)
-```
-
-> If this path does not exist in the configs table, the value will be fetched from within the file, otherwise, the default value will be displayed if you set.
-
-`$path`: The option path.
-
-`$default`: You can specify a default value if the option is not found.
-
-### Has Option
-
-Make sure the option is there
-
-```php
-o_config()->has($path)
-```
-
-`$path`: The option path.
-
-> Verify that the value exists within the configs table.
-
-### Forget Option
-
-You can delete any option
-
-```php
-o_config()->forget($path)
-```
-
-`$path`: The option path.
-
-> Delete the option from the configs table if it exists.
-
-## Use facade
-
-```php
-use Obelaw\Configs\Support\Option;
-
-Option::set($path, $value);
-Option::get($path, $default = null);
-Option::has($path);
-Option::forget($path);
-```
+Thank you for considering contributing to this package! Be one of the Store team.
 
 ## License
 
-The MIT License (MIT). Please see [The License File](/LICENSE) for more information.
+This package is an open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
