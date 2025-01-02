@@ -7,7 +7,7 @@
             "Obelaw\\Configs\\": "src/"
         },
         "files": [
-            "helpers.php"
+            "src/helpers.php"
         ]
     },
     "authors": [
