@@ -42,7 +42,7 @@ class ConfigsPage extends Page implements HasForms
         $filled = [];
 
         foreach (SchemaSection::getSectionsKeyValueConfigs() as $key => $value) {
-            $filled['inputs.' . $key] = o_config()->get($value);
+            $filled['inputs.' . $key] = oconfig($value);
         }
 
         $this->form->fill($filled);
@@ -74,8 +74,12 @@ class ConfigsPage extends Page implements HasForms
     {
         $congigs = SchemaSection::getSectionsKeyValueConfigs();
 
+        $saveing = [];
+
         foreach ($inputs['inputs'] as $input => $value) {
-            o_config()->set($congigs[$input], $value);
+            $saveing[$congigs[$input]] = $value;
         }
+
+        oconfig($saveing);
     }
 };
