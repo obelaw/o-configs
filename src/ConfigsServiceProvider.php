@@ -4,6 +4,8 @@ namespace Obelaw\Configs;
 
 use Illuminate\Support\ServiceProvider;
 use Obelaw\Configs\Classes\ConfigsClass;
+use Obelaw\Configs\Schema\Fields\Text;
+use Obelaw\Configs\Schema\Section;
 
 class ConfigsServiceProvider extends ServiceProvider
 {
@@ -25,8 +27,20 @@ class ConfigsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'obelaw-configs');
+
         if ($this->app->runningInConsole()) {
             $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         }
+
+        Section::make(
+            name: 'Select Status',
+            description: 'Select the status of the application',
+            schema: function () {
+                return [
+                    Text::make('name', 'configs.name', 'Name', 'Enter the name'),
+                ];
+            }
+        );
     }
 }
