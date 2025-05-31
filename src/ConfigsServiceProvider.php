@@ -3,10 +3,9 @@
 namespace Obelaw\Configs;
 
 use Illuminate\Support\ServiceProvider;
-use Obelaw\Configs\Services\ConfigurationService;
-use Obelaw\Configs\Classes\ConfigsClass;
 use Obelaw\Configs\Schema\Fields\Text;
 use Obelaw\Configs\Schema\Section;
+use Obelaw\Configs\Services\ConfigurationService;
 
 class ConfigsServiceProvider extends ServiceProvider
 {

@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "laravel/framework": "^10.0||^11.0"
+        "obelaw/twist": "dev-main"
     },
     "extra": {
         "laravel": {
@@ -25,5 +25,7 @@
                 "Obelaw\\Configs\\ConfigsServiceProvider"
             ]
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

@@ -2,24 +2,14 @@
 
 namespace Obelaw\Configs\Filament;
 
-use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Contracts\View\View;
 use Obelaw\Configs\Filament\Pages\ConfigsPage;
+use Obelaw\Twist\Base\BaseAddon;
 
-class ConfigPlugin implements Plugin
+class ConfigPlugin extends BaseAddon
 {
-    public static function make(): static
-    {
-        return app(static::class);
-    }
-
-    public function getId(): string
-    {
-        return 'obelaw-configs';
-    }
-
     public function register(Panel $panel): void
     {
         $panel
