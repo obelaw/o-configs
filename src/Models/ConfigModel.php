@@ -4,18 +4,14 @@ namespace Obelaw\Configs\Models;
 
 use Obelaw\Twist\Base\BaseModel;
 
-/**
- * @property string $path
- * @property mixed $value
- */
-class Config extends BaseModel
+class ConfigModel extends BaseModel
 {
     /**
      * The table associated with the model.
      *
      * @var string|null
      */
-    protected $table = 'o_configs';
+    protected $table = 'o_config_models';
 
     /**
      * The primary key for the model.
@@ -41,11 +37,6 @@ class Config extends BaseModel
         'value',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
     protected $casts = [
         'value' => 'json',
     ];
@@ -56,4 +47,9 @@ class Config extends BaseModel
      * @var bool
      */
     public $timestamps = false;
+
+    public function modelable()
+    {
+        return $this->morphTo();
+    }
 }
