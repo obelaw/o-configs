@@ -7,13 +7,13 @@ use Obelaw\Configs\Services\ConfigurationModelService;
 
 trait HasConfigs
 {
-    public function _configs()
+    public function allConfigs()
     {
         return $this->morphMany(ConfigModel::class, 'modelable');
     }
 
     public function configs()
     {
-        return new ConfigurationModelService($this->_configs());
+        return new ConfigurationModelService($this);
     }
 }

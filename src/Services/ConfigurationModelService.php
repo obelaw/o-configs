@@ -24,9 +24,9 @@ class ConfigurationModelService
     /**
      * Create a new configuration instance.
      */
-    public function __construct(private $configs)
+    public function __construct(private $record)
     {
-        $configs->each(function (ConfigModel $item) {
+        $record->allConfigs()->each(function ($item) {
             Arr::set($this->items, $item->path, $item->value);
         });
     }
@@ -82,7 +82,7 @@ class ConfigurationModelService
 
         Arr::forget($this->items, $path);
 
-        return $this->configs->wherePath($path)->delete();
+        return $this->record->allConfigs()->wherePath($path)->delete();
     }
 
     /**
@@ -94,7 +94,16 @@ class ConfigurationModelService
      */
     public function set(string $path, $value)
     {
-        $this->configs->updateOrCreate(compact('path'), compact('value'));
+        $this->record->allConfigs()->updateOrInsert(
+            [
+                'path' => $path,
+                'modelable_type' => $this->record->getMorphClass(),
+                'modelable_id' => $this->record->getKey(),
+            ],
+            [
+                'value' => json_encode($value),
+            ]
+        );
 
         Arr::set($this->items, $path, $value);
 
