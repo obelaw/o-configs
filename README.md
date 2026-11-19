@@ -68,6 +68,17 @@ The manager is a scoped binding: each request or queued job reads fresh values.
 - Removed: `Obelaw\Configs\Models\ConfigModel` and `Obelaw\Configs\Services\ConfigurationModelService`.
 - `oconfig()` with no argument returns `Obelaw\Configs\ConfigsManager`.
 
+## AI assistants (Laravel Boost)
+
+This package ships an AI guideline (`resources/boost/guidelines/core.md`) and an `o-configs`
+skill (`resources/boost/skills/o-configs/SKILL.md`) for [Laravel Boost](https://github.com/laravel/boost).
+When `obelaw/o-configs` is a direct dependency of your app, Boost finds them on its own:
+
+```bash
+php artisan boost:install   # choose obelaw/o-configs when Boost lists third-party packages
+php artisan boost:update    # refresh after upgrading this package
+```
+
 ## Contributing
 
 Thank you for considering contributing to this package! Be one of the Store team.
