@@ -4,13 +4,13 @@ use Obelaw\Configs\Facades\OConfig;
 
 if (! function_exists('oconfig')) {
     /**
-     * Get / set the specified configuration value.
+     * Get / set the specified configuration value of the current group.
      *
      * If an array is passed as the key, we will assume you want to set an array of values.
      *
      * @param  array<string, mixed>|string|null  $key
      * @param  mixed  $default
-     * @return ($key is null ? Obelaw\Configs\Services\ConfigurationService : ($key is string ? mixed : null))
+     * @return ($key is null ? Obelaw\Configs\ConfigsManager : ($key is string ? mixed : null))
      */
     function oconfig($key = null, $default = null)
     {
