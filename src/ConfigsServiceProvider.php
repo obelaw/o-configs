@@ -5,7 +5,6 @@ namespace Obelaw\Configs;
 use Illuminate\Support\ServiceProvider;
 use Obelaw\Configs\Schema\Fields\Text;
 use Obelaw\Configs\Schema\Section;
-use Obelaw\Configs\Services\ConfigurationService;
 
 class ConfigsServiceProvider extends ServiceProvider
 {
@@ -17,7 +16,12 @@ class ConfigsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('obelaw.o.configs', ConfigurationService::class);
+        $this->mergeConfigFrom(__DIR__ . '/../config/o-configs.php', 'o-configs');
+
+        // Scoped: each request / queued job reads fresh values, so a long-running
+        // worker never keeps the values of the request (or tenant) before it.
+        $this->app->scoped('obelaw.o.configs', fn ($app) => new ConfigsManager($app));
+        $this->app->alias('obelaw.o.configs', ConfigsManager::class);
     }
 
     /**
@@ -28,6 +32,10 @@ class ConfigsServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'obelaw-configs');
+
+        $this->publishes([
+            __DIR__ . '/../config/o-configs.php' => config_path('o-configs.php'),
+        ], 'o-configs-config');
 
         if ($this->app->runningInConsole()) {
             $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');

@@ -2,37 +2,50 @@
 
 namespace Obelaw\Configs\Services;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Obelaw\Configs\Models\Config;
 
 /**
- * @method array all() Get all of the configuration items.
- * @method boolean has(string $path) Determine if the given configuration value exists.
- * @method mixed get(string $path, $default = null) Get the specified configuration value.
- * @method boolean forget(string $path) Forget a configuration value.
- * @method mixed set(string $path, $value) Set a configuration value.
+ * The values of one group (the global values when the group is null).
+ *
+ * Reads fall back to the global group (when given) and then to Laravel's
+ * config(); writes always go to this group only.
  */
 class ConfigurationService
 {
     /**
-     * All of the configuration items.
+     * All of the configuration items of this group.
      *
-     * @var \Illuminate\Database\Eloquent\Collection
+     * @var array
      */
     private $items = [];
 
     /**
-     * Create a new configuration instance.
+     * @param  string|null  $group  Null for the global values.
+     * @param  string|null  $connection  A fixed connection; null uses the model's own.
+     * @param  self|null  $fallback  Where missing values are read from (the global group).
      */
-    public function __construct()
-    {
-        Config::all()->each(function (Config $item) {
+    public function __construct(
+        private ?string $group = null,
+        private ?string $connection = null,
+        private ?self $fallback = null,
+    ) {
+        $this->query()->get(['path', 'value'])->each(function (Config $item) {
             Arr::set($this->items, $item->path, $item->value);
         });
     }
 
     /**
-     * Get all of the configuration items.
+     * The group these values belong to (null for the global values).
+     */
+    public function group(): ?string
+    {
+        return $this->group;
+    }
+
+    /**
+     * Get all of the configuration items of this group.
      *
      * @return array
      */
@@ -42,10 +55,9 @@ class ConfigurationService
     }
 
     /**
-     * Determine if the given configuration value exists.
+     * Determine if this group has the given configuration value.
      *
-     * @param string $path
-     * @return boolean
+     * @return bool
      */
     public function has(string $path)
     {
@@ -55,49 +67,64 @@ class ConfigurationService
     /**
      * Get the specified configuration value.
      *
-     * @param string $path
-     * @param mixed $default
      * @return mixed
      */
     public function get(string $path, $default = null)
     {
-        if (!$this->has($path)) {
-            return config($path, $default);
+        if ($this->has($path)) {
+            return Arr::get($this->items, $path);
         }
 
-        return Arr::get($this->items, $path);
+        if ($this->fallback) {
+            return $this->fallback->get($path, $default);
+        }
+
+        return config($path, $default);
     }
 
     /**
-     * Forget a configuration value.
+     * Set a configuration value in this group.
      *
-     * @param string $path
-     * @return boolean
+     * @return mixed
+     */
+    public function set(string $path, $value)
+    {
+        $this->newQuery()->updateOrCreate(
+            ['group' => $this->group ?? '', 'path' => $path],
+            ['value' => $value],
+        );
+
+        Arr::set($this->items, $path, $value);
+
+        return $value;
+    }
+
+    /**
+     * Forget a configuration value of this group.
+     *
+     * @return bool
      */
     public function forget(string $path)
     {
-        if (!$this->has($path)) {
+        if (! $this->has($path)) {
             return false;
         }
 
         Arr::forget($this->items, $path);
 
-        return Config::wherePath($path)->delete();
+        return (bool) $this->query()->where('path', $path)->delete();
     }
 
     /**
-     * Set a configuration value.
-     *
-     * @param string $path
-     * @param mixed $value
-     * @return mixed
+     * The rows of this group.
      */
-    public function set(string $path, $value)
+    public function query(): Builder
     {
-        Config::updateOrCreate(compact('path'), compact('value'));
+        return $this->newQuery()->where('group', $this->group ?? '');
+    }
 
-        Arr::set($this->items, $path, $value);
-
-        return $value;
+    protected function newQuery(): Builder
+    {
+        return $this->connection ? Config::on($this->connection) : Config::query();
     }
 }
