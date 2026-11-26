@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "obelaw/twist": "dev-main"
+        "obelaw/twist": "^1.2"
     },
     "extra": {
         "laravel": {
@@ -26,6 +26,6 @@
             ]
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }
